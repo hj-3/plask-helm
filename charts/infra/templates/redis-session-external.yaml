@@ -1,0 +1,27 @@
+# External Redis Session on VM: {{ .Values.redisSession.host }}:{{ .Values.redisSession.port }}
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: redis-session-svc
+  namespace: {{ .Values.namespace }}
+subsets:
+  - addresses:
+      - ip: {{ .Values.redisSession.host | quote }}
+    ports:
+      - port: {{ .Values.redisSession.port }}
+        protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-session-svc
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: redis-session
+    tier: external
+spec:
+  ports:
+    - port: {{ .Values.redisSession.port }}
+      targetPort: {{ .Values.redisSession.port }}
+      protocol: TCP

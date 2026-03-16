@@ -1,0 +1,31 @@
+namespace: plask
+
+# External PostgreSQL (VM: 10.152.140.150)
+postgres:
+  host: "10.152.140.150"
+  port: 5432
+  database: plask
+  user: user
+  password: "password"   # Change this
+
+# External Redis Session (VM: 10.152.140.160, port 6379)
+redisSession:
+  host: "10.152.140.160"
+  port: 6379
+
+# External Redis Queue (VM: 10.152.140.160, port 6380)
+redisQueue:
+  host: "10.152.140.160"
+  port: 6380
+
+# Application secrets (shared across backend/worker)
+secrets:
+  jwtSecret: "plask-super-secret-key-change-me"
+  adminEmail: "admin@plask.com"
+  adminPassword: "admin1234"
+  adminName: "관리자"
+  smtpHost: "smtp.gmail.com"
+  smtpPort: "587"
+  smtpUser: ""
+  smtpPass: ""
+  smtpFrom: "noreply@plask.com"

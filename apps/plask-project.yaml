@@ -1,0 +1,36 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: plask
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  description: Plask Limited-order Platform
+
+  # Source repos (update with your GitHub org)
+  sourceRepos:
+    - "https://github.com/hj-3/plask-helm"
+    - "https://github.com/hj-3/plask-frontend"
+    - "https://github.com/hj-3/plask-backend"
+
+  destinations:
+    - namespace: plask
+      server: https://kubernetes.default.svc
+    - namespace: argocd
+      server: https://kubernetes.default.svc
+
+  # Allow managing cluster-scoped resources
+  clusterResourceWhitelist:
+    - group: ""
+      kind: Namespace
+
+  namespaceResourceWhitelist:
+    - group: "*"
+      kind: "*"
+
+  # Sync policy
+  syncWindows: []
+
+  orphanedResources:
+    warn: true

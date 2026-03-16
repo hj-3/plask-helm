@@ -1,0 +1,28 @@
+replicaCount: 1
+
+image:
+  repository: ghcr.io/YOUR_GITHUB_ORG/plask-worker
+  tag: latest
+  pullPolicy: Always
+
+# Reference to infra chart secrets
+secretName: plask-app-secret
+
+env:
+  QUEUE_NAME: "order-queue"
+  QUEUE_REDIS_HOST: "redis-queue-svc"
+  QUEUE_REDIS_PORT: "6380"
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 300m
+    memory: 256Mi
+
+# Worker can scale based on queue depth (manual for now)
+replicaCount: 2
+
+imagePullSecrets: []
+# - name: ghcr-secret

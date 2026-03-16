@@ -1,0 +1,27 @@
+# External Redis Queue on VM: {{ .Values.redisQueue.host }}:{{ .Values.redisQueue.port }}
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: redis-queue-svc
+  namespace: {{ .Values.namespace }}
+subsets:
+  - addresses:
+      - ip: {{ .Values.redisQueue.host | quote }}
+    ports:
+      - port: {{ .Values.redisQueue.port }}
+        protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-queue-svc
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: redis-queue
+    tier: external
+spec:
+  ports:
+    - port: {{ .Values.redisQueue.port }}
+      targetPort: {{ .Values.redisQueue.port }}
+      protocol: TCP

@@ -1,0 +1,6 @@
+apiVersion: v2
+name: plask-infra
+description: External services (PostgreSQL, Redis) and namespace for Plask
+type: application
+version: 0.1.0
+appVersion: "1.0.0"

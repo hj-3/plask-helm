@@ -1,0 +1,45 @@
+# nginx config with backend service URL injected via Helm values
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: plask-frontend-nginx
+  namespace: plask
+  labels:
+    app: plask-frontend
+data:
+  default.conf: |
+    server {
+        listen 80;
+        server_name _;
+
+        root /usr/share/nginx/html;
+        index index.html;
+
+        location /api/ {
+            proxy_pass         {{ .Values.backend.serviceURL }};
+            proxy_http_version 1.1;
+            proxy_set_header   Host              $host;
+            proxy_set_header   X-Real-IP         $remote_addr;
+            proxy_set_header   X-Forwarded-For   $proxy_add_x_forwarded_for;
+            proxy_set_header   X-Forwarded-Proto $scheme;
+            proxy_read_timeout 30s;
+            proxy_connect_timeout 5s;
+        }
+
+        location /health {
+            proxy_pass         {{ .Values.backend.serviceURL }};
+            proxy_http_version 1.1;
+            proxy_set_header   Host $host;
+        }
+
+        location /stub_status {
+            stub_status on;
+            allow 127.0.0.1;
+            allow 10.0.0.0/8;
+            deny all;
+        }
+
+        location / {
+            try_files $uri $uri/ /index.html;
+        }
+    }

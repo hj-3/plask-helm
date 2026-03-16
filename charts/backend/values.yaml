@@ -1,0 +1,51 @@
+replicaCount: 2
+
+image:
+  repository: ghcr.io/YOUR_GITHUB_ORG/plask-backend
+  tag: latest
+  pullPolicy: Always
+
+# Reference to infra chart secrets
+secretName: plask-app-secret
+
+service:
+  type: ClusterIP
+  port: 3002
+
+env:
+  PORT: "3002"
+  JWT_EXPIRES_IN: "24h"
+  QUEUE_NAME: "order-queue"
+  # Redis services created by infra chart
+  SESSION_REDIS_HOST: "redis-session-svc"
+  SESSION_REDIS_PORT: "6379"
+  QUEUE_REDIS_HOST: "redis-queue-svc"
+  QUEUE_REDIS_PORT: "6380"
+
+resources:
+  requests:
+    cpu: 150m
+    memory: 256Mi
+  limits:
+    cpu: 500m
+    memory: 512Mi
+
+hpa:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 70
+
+# Prometheus ServiceMonitor
+serviceMonitor:
+  enabled: true
+  namespace: monitoring
+  interval: 30s
+  scrapeTimeout: 10s
+  # Label required by your Prometheus stack (kube-prometheus-stack default)
+  labels:
+    release: prometheus
+
+# Image pull secret (for private ghcr.io repo)
+imagePullSecrets: []
+# - name: ghcr-secret

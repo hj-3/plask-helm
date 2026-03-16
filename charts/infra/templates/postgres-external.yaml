@@ -1,0 +1,27 @@
+# External PostgreSQL on VM: {{ .Values.postgres.host }}:{{ .Values.postgres.port }}
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: postgres-svc
+  namespace: {{ .Values.namespace }}
+subsets:
+  - addresses:
+      - ip: {{ .Values.postgres.host | quote }}
+    ports:
+      - port: {{ .Values.postgres.port }}
+        protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-svc
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: postgres
+    tier: external
+spec:
+  ports:
+    - port: {{ .Values.postgres.port }}
+      targetPort: {{ .Values.postgres.port }}
+      protocol: TCP

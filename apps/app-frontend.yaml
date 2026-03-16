@@ -1,0 +1,36 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: plask-frontend
+  namespace: argocd
+  labels:
+    app.kubernetes.io/part-of: plask
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: plask
+
+  source:
+    repoURL: https://github.com/hj-3/plask-helm
+    targetRevision: main
+    path: charts/frontend
+    helm:
+      valueFiles:
+        - values.yaml
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: plask
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - ApplyOutOfSyncOnly=true
+    retry:
+      limit: 3
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
