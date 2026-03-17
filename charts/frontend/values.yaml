@@ -1,26 +1,21 @@
 replicaCount: 2
-
 image:
   repository: hj2346/plask-frontend
-  tag: latest
+  tag: sha-3d42aed
   pullPolicy: Always
-
 service:
   type: ClusterIP
   port: 80
-
 # Backend service URL for nginx proxy (K8s service name)
 backend:
   serviceURL: "http://plask-backend:3002"
-
 ingress:
   enabled: true
   className: nginx
-  host: plask.local   # Change to your domain
+  host: plask.local # Change to your domain
   tls: false
   # tls: true
   # tlsSecret: plask-tls
-
 resources:
   requests:
     cpu: 50m
@@ -28,13 +23,11 @@ resources:
   limits:
     cpu: 200m
     memory: 128Mi
-
 hpa:
   enabled: true
   minReplicas: 2
   maxReplicas: 5
   targetCPUUtilizationPercentage: 70
-
 # Prometheus ServiceMonitor (nginx stub_status)
 serviceMonitor:
   enabled: true
@@ -42,6 +35,5 @@ serviceMonitor:
   interval: 30s
   labels:
     release: prometheus
-
 imagePullSecrets: []
 # - name: ghcr-secret
