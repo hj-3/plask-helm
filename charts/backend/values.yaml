@@ -1,17 +1,13 @@
 replicaCount: 2
-
 image:
   repository: hj2346/plask-backend
-  tag: latest
+  tag: sha-0fa14dc
   pullPolicy: Always
-
 # Reference to infra chart secrets
 secretName: plask-app-secret
-
 service:
   type: ClusterIP
   port: 3002
-
 env:
   PORT: "3002"
   JWT_EXPIRES_IN: "24h"
@@ -21,7 +17,6 @@ env:
   SESSION_REDIS_PORT: "6379"
   QUEUE_REDIS_HOST: "redis-queue-svc"
   QUEUE_REDIS_PORT: "6380"
-
 resources:
   requests:
     cpu: 150m
@@ -29,13 +24,11 @@ resources:
   limits:
     cpu: 500m
     memory: 512Mi
-
 hpa:
   enabled: true
   minReplicas: 2
   maxReplicas: 5
   targetCPUUtilizationPercentage: 70
-
 # Prometheus ServiceMonitor
 serviceMonitor:
   enabled: true
@@ -45,7 +38,6 @@ serviceMonitor:
   # Label required by your Prometheus stack (kube-prometheus-stack default)
   labels:
     release: prometheus
-
 # Image pull secret (for private ghcr.io repo)
 imagePullSecrets: []
 # - name: ghcr-secret
