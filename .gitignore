@@ -16,3 +16,7 @@ Thumbs.db
 
 # Rendered templates (local testing)
 rendered/
+
+# Local secret overrides — never commit these
+values-secret.yaml
+charts/*/values-secret.yaml

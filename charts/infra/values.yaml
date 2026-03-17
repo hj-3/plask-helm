@@ -1,31 +1,34 @@
 namespace: plask
 
-# External PostgreSQL (VM: 10.152.140.150)
+# External PostgreSQL (VM)
 postgres:
   host: "10.152.140.150"
   port: 5432
   database: plask
-  user: user
-  password: "password"   # Change this
+  user: plask_user          # 실제 DB 유저명으로 변경
+  password: "CHANGE_ME"     # secrets.create: false 시 미사용
 
-# External Redis Session (VM: 10.152.140.160, port 6379)
+# External Redis Session (VM: port 6379)
 redisSession:
   host: "10.152.140.160"
   port: 6379
 
-# External Redis Queue (VM: 10.152.140.160, port 6380)
+# External Redis Queue (VM: port 6380)
 redisQueue:
   host: "10.152.140.160"
   port: 6380
 
-# Application secrets (shared across backend/worker)
+# Secret 생성 방식 선택
+# true  → Helm이 아래 값으로 plask-app-secret 생성 (개발/테스트)
+# false → kubectl로 수동 생성 (운영환경 권장, 아래 값 무시됨)
 secrets:
-  jwtSecret: "plask-super-secret-key-change-me"
-  adminEmail: "admin@plask.com"
-  adminPassword: "admin1234"
-  adminName: "관리자"
+  create: false
+  jwtSecret: ""
+  adminEmail: ""
+  adminPassword: ""
+  adminName: ""
   smtpHost: "smtp.gmail.com"
   smtpPort: "587"
   smtpUser: ""
   smtpPass: ""
-  smtpFrom: "noreply@plask.com"
+  smtpFrom: ""

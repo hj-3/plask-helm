@@ -1,7 +1,7 @@
 replicaCount: 2
 
 image:
-  repository: ghcr.io/hj-3/plask-frontend
+  repository: hj2346/plask-frontend
   tag: latest
   pullPolicy: Always
 
