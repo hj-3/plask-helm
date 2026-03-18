@@ -2,20 +2,20 @@ namespace: plask
 
 # External PostgreSQL (VM)
 postgres:
-  host: "192.168.80.150"
+  host: "10.127.111.140"
   port: 5432
   database: plask
   user: plask_user          # 실제 DB 유저명으로 변경
-  password: "CHANGE_ME"     # secrets.create: false 시 미사용
+  password: "1234"     # secrets.create: false 시 미사용
 
 # External Redis Session (VM: port 6379)
 redisSession:
-  host: "192.168.80.160"
+  host: "10.127.111.150"
   port: 6379
 
 # External Redis Queue (VM: port 6380)
 redisQueue:
-  host: "192.168.80.160"
+  host: "10.127.111.150"
   port: 6380
 
 # Secret 생성 방식 선택
