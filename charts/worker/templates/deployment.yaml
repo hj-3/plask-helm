@@ -34,9 +34,15 @@ spec:
             - name: QUEUE_NAME
               value: {{ .Values.env.QUEUE_NAME | quote }}
             - name: QUEUE_REDIS_HOST
-              value: {{ .Values.env.QUEUE_REDIS_HOST | quote }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secretName }}
+                  key: REDIS_QUEUE_HOST
             - name: QUEUE_REDIS_PORT
-              value: {{ .Values.env.QUEUE_REDIS_PORT | quote }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secretName }}
+                  key: REDIS_QUEUE_PORT
             - name: DATABASE_URL
               valueFrom:
                 secretKeyRef:
