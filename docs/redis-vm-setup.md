@@ -123,8 +123,8 @@ K8s 워커 노드 IP 대역(10.84.101.110~130)에서만 접근 허용:
 
 ```bash
 # ufw 사용 시
-sudo ufw allow from 10.84.101.0/24 to any port 6379
-sudo ufw allow from 10.84.101.0/24 to any port 6380
+sudo ufw allow from 192.168.80.0/24 to any port 6379
+sudo ufw allow from 192.168.80.0/24 to any port 6380
 sudo ufw reload
 
 # iptables 사용 시
