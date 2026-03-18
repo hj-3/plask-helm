@@ -45,13 +45,25 @@ spec:
             - name: QUEUE_NAME
               value: {{ .Values.env.QUEUE_NAME | quote }}
             - name: SESSION_REDIS_HOST
-              value: {{ .Values.env.SESSION_REDIS_HOST | quote }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secretName }}
+                  key: REDIS_SESSION_HOST
             - name: SESSION_REDIS_PORT
-              value: {{ .Values.env.SESSION_REDIS_PORT | quote }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secretName }}
+                  key: REDIS_SESSION_PORT
             - name: QUEUE_REDIS_HOST
-              value: {{ .Values.env.QUEUE_REDIS_HOST | quote }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secretName }}
+                  key: REDIS_QUEUE_HOST
             - name: QUEUE_REDIS_PORT
-              value: {{ .Values.env.QUEUE_REDIS_PORT | quote }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secretName }}
+                  key: REDIS_QUEUE_PORT
             # Secrets from infra chart
             - name: DATABASE_URL
               valueFrom:
